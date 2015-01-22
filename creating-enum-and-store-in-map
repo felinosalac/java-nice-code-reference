@@ -1,0 +1,48 @@
+package com.projectx.constant;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public enum Order {
+	
+	DATE_CREATED("date_created", "dateCreated"),
+	COMMENT_POPULARITY("like_count", "likeCount");
+	
+	private String sqlColumnName;
+	
+	private String modelFieldName;
+	
+    /**
+     * A mapping between the String code and its corresponding Order to facilitate lookup by code.
+     */
+    private static Map<String, Order> orderMap;
+	
+	Order(String sqlColumnName, String modelFieldName) {
+		this.sqlColumnName = sqlColumnName;
+		this.modelFieldName = modelFieldName;
+	}
+	
+	public String getSqlColumnName(){
+		return sqlColumnName;
+	}
+	
+	public String getModelFieldName(){
+		return modelFieldName;
+	}
+
+	public static Order getOrder(String modelFieldNameKey) {
+		if (orderMap == null) {
+			initMapping();
+		}
+		return orderMap.get(modelFieldNameKey);
+	}
+
+	private static void initMapping() {
+		orderMap = new HashMap<String, Order>();
+		for (Order s : values()) {
+			orderMap.put(s.modelFieldName, s);
+		}
+	}
+	
+}
